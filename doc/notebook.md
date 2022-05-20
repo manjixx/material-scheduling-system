@@ -216,7 +216,15 @@
     ```
 > ## github 托管代码配置
 - New repository：填写仓库名以及描述后点击创建，跳转至Quick setup
-- 在项目终端使用
+- 在项目终端依次执行下述命令
+```shell
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:manjixx/material-scheduling-system.git
+git push -u origin main
+```
 
 
    
