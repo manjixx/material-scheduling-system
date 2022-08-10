@@ -221,10 +221,17 @@
 git init
 git add README.md
 git commit -m "first commit"
-git branch -M main
 git remote add origin git@github.com:manjixx/material-scheduling-system.git
 git push -u origin main
 ```
+- 解决 ```Enter passphrase for key '/Users/iiixv/.ssh/id_rsa':```
+
+```shell
+# 打开终端
+ssh-add -K /Users/iiixv/.ssh/id_rsa
+# 然后输入密码，之后便不需要继续输入密码
+```
+
 
 
    
@@ -254,8 +261,10 @@ git push -u origin main
   ```
     
 
-# 实现用户登录界面
-## Springboot与Vue前后端交互
+# 功能界面实现
+## 登录功能实现
+
+> ### Springboot与Vue前后端交互
 - 在后端application.properties中修改端口为```server.port=7001```
 - 后端中新建package:config，包下新建类CrosConfig
   ```java
@@ -277,4 +286,36 @@ git push -u origin main
   ```
 - 前端vue中修改network.js文件中的```axios.defaults.baseURL = 'http://127.0.0.1:7001';```
 
-## 用户登录格式验证
+> ### 用户登录格式验证
+
+> ### SpringBoot集成redis
+- 引入依赖
+```XML
+<!--redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+```
+
+- application中配置redis
+```properties
+spring.redis.host=localhost
+spring.redis.port=6379
+spring.redis.password=123456 
+#连接超时时间30分钟
+spring.redis.connect-timeout=1800000
+#连接池最大连接数
+spring.redis.lettuce.pool.max-active=20 
+# 连接池最大阻塞等待时间
+spring.redis.lettuce.pool.max-wait=6000
+# 最大空闲连接
+spring.redis.lettuce.pool.max-idle=8
+# 最小空闲连接
+spring.redis.lettuce.pool.min-idle=
+```

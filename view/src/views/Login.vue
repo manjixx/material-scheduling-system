@@ -1,9 +1,10 @@
 <template>
   <!--登录页面-->
-  <div class="login">
+    <div class="login">
     <!--登录容器-->
     <div class="login-container">
-      <h1 @click="isLogin">统一登录</h1>
+    <!--<h1 @click="isLogin">统一登录</h1>-->
+      <h3 class="login_title">系统登录</h3>
       <!--登录表单-->
       <el-form class="login-form" :model="loginData" :rules="loginRules" ref="loginForm" label-width="0">
         <el-form-item label="" prop="username">
@@ -12,16 +13,16 @@
         <el-form-item label="" prop="password">
           <el-input type="password" v-model="loginData.password" placeholder="请输入登录密码"  prefix-icon="el-icon-lock"></el-input>
         </el-form-item>
-        <el-form-item label="" prop="captcha" class="captcha">
-          <el-row>
-            <el-col :span="18">
-              <el-input v-model="loginData.captcha" placeholder="请输入验证码" prefix-icon="el-icon-mobile"></el-input>
-            </el-col>
-            <el-col :span="6" style="height: 40px;">
-              <img src="http://127.0.0.1:7001/captcha" ref="captchaImage" @click="updateCaptcha">
-            </el-col>
-          </el-row>
-        </el-form-item>
+<!--        <el-form-item label="" prop="captcha" class="captcha">-->
+<!--          <el-row>-->
+<!--            <el-col :span="18">-->
+<!--              <el-input v-model="loginData.captcha" placeholder="请输入验证码" prefix-icon="el-icon-mobile"></el-input>-->
+<!--            </el-col>-->
+<!--            <el-col :span="6" style="height: 40px;">-->
+<!--              <img src="http://127.0.0.1:7001/captcha" ref="captchaImage" @click="">-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--        </el-form-item>-->
         <el-form-item class="tips">
           <a href="javascript:;" @click="navigateToRegister">没有账号？点击注册</a>
         </el-form-item>
@@ -41,8 +42,8 @@ export default {
     return {
       loginData: {
         username: '',
-        password: '',
-        captcha: ''
+        password: ''
+        // captcha: ''
       },
       loginRules: {
         username: [
@@ -52,17 +53,17 @@ export default {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-        ],
-        captcha: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '长度为 4 个字符', trigger: 'blur' }
         ]
+        // captcha: [
+        //   { required: true, message: '请输入验证码', trigger: 'blur' },
+        //   { min: 4, max: 4, message: '长度为 4 个字符', trigger: 'blur' }
+        // ]
       }
     };
   },
-  mounted() {
-    this.updateCaptcha();
-  },
+  // mounted() {
+  //   this.updateCaptcha();
+  // },
   methods: {
     isLogin() {
       isLogin()
@@ -74,9 +75,9 @@ export default {
         });
     },
     // 点击更新验证码
-    updateCaptcha() {
-      this.$refs.captchaImage.src = `http://127.0.0.1:7001/captcha?r=${Math.random()}`;
-    },
+    // updateCaptcha() {
+    //   this.$refs.captchaImage.src = `http://127.0.0.1:7001/captcha?r=${Math.random()}`;
+    // },
     // 跳转到注册界面
     navigateToRegister() {
       this.$router.push('/register');
@@ -84,6 +85,7 @@ export default {
     // 表单校验并提交
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
+        console.log(valid);
         if (valid) {
           loginUser(this.loginData)
             .then(res => {
@@ -92,16 +94,16 @@ export default {
                 sessionStorage.setItem('userInfo', JSON.stringify(res.data));
                 sessionStorage.setItem('token', res.data.token);
                 this.$message.success(res.msg);
-                console.log("登录成功啦！");
+                console.log('登录成功啦!');
                 this.$router.push('/admin');
               } else {
-                this.updateCaptcha();
-                this.$message.error(res.msg);
+                // this.updateCaptcha();
+                // this.$message.error(res.msg);
               }
             })
             .catch((e) => {
-              this.updateCaptcha();
-              this.$message.error(e.message);
+              // this.updateCaptcha();
+              // this.$message.error(e.message);
             });
         } else {
           this.$message({
@@ -121,9 +123,15 @@ export default {
   .login {
     width: 100%;
     height: 100%;
-    background: url('./../assets/images/login-bg.png') 0 0 no-repeat;
+    background: url("../assets/images/eva1.png") 0 0 no-repeat;
     background-size: cover;
     position: relative;
+
+    .login_title {
+      margin: 0px auto 40px auto;
+      text-align: center;
+      color: #505458;
+    }
     .login-container {
       width: 560px;
       height: 400px;
